@@ -1,0 +1,15 @@
+// This is a simple test file that would run in the CI pipeline.
+// In a real project, this would contain logic to test your component classes.
+
+function isModalHidden(modalElement) {
+    return modalElement.classList.contains('hidden');
+}
+
+// Simple test case
+const result = isModalHidden({classList: {contains: (cls) => cls === 'hidden'}});
+if (result) {
+    console.log("✓ PASS: isModalHidden returns true for a hidden modal.");
+} else {
+    console.error("✗ FAIL: isModalHidden returned false.");
+    process.exit(1); // Exit with a non-zero code to fail the CI build
+}
