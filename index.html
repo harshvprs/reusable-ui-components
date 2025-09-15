@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reusable UI Components</title>
+    <!-- Use Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        /* Custom styles for the components to add visual flair */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            flex-shrink: 0;
+            width: 100%;
+        }
+        
+        /* Visually hidden for screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Styles for the simple test runner */
+        .test-report {
+            background-color: #1f2937;
+            color: #d1d5db;
+            border-radius: 0.75rem;
+        }
+        .test-status-pass {
+            color: #10b981;
+        }
+        .test-status-fail {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body class="p-8 space-y-12 text-gray-800">
+
+    <main class="max-w-4xl mx-auto space-y-12">
+        <h1 class="text-4xl font-bold text-center text-gray-900">Reusable UI Components</h1>
+
+        <!-- Modal Dialog Component -->
+        <section class="bg-white p-6 rounded-2xl shadow-xl space-y-4">
+            <h2 class="text-2xl font-semibold text-gray-700">1. Accessible Modal Dialog</h2>
+            <p class="text-gray-600">This modal traps keyboard focus, handles closing with the ESC key, and includes necessary ARIA attributes for screen readers.</p>
+            <button id="openModalBtn" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-700 transition-colors">
+                Open Modal
+            </button>
+        </section>
+
+        <!-- Tabbed Content Component -->
+        <section class="bg-white p-6 rounded-2xl shadow-xl space-y-4">
+            <h2 class="text-2xl font-semibold text-gray-700">2. Tabbed Content</h2>
+            <p class="text-gray-600">This component allows keyboard navigation using the left and right arrow keys.</p>
+            <div id="tabsContainer" class="rounded-lg border border-gray-200">
+                <div role="tablist" class="flex p-1 bg-gray-100 rounded-t-lg">
+                    <button id="tab1" role="tab" aria-controls="panel1" aria-selected="true" class="flex-1 py-2 px-4 text-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors bg-white text-indigo-600 shadow-sm">Tab 1</button>
+                    <button id="tab2" role="tab" aria-controls="panel2" aria-selected="false" tabindex="-1" class="flex-1 py-2 px-4 text-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-gray-600 hover:text-indigo-600">Tab 2</button>
+                    <button id="tab3" role="tab" aria-controls="panel3" aria-selected="false" tabindex="-1" class="flex-1 py-2 px-4 text-center text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors text-gray-600 hover:text-indigo-600">Tab 3</button>
+                </div>
+
+                <div id="panel1" role="tabpanel" aria-labelledby="tab1" class="p-6 bg-white rounded-b-lg">
+                    <p class="text-gray-700">This is the content for Tab 1.</p>
+                </div>
+                <div id="panel2" role="tabpanel" aria-labelledby="tab2" hidden class="p-6 bg-white rounded-b-lg">
+                    <p class="text-gray-700">This is the content for Tab 2.</p>
+                </div>
+                <div id="panel3" role="tabpanel" aria-labelledby="tab3" hidden class="p-6 bg-white rounded-b-lg">
+                    <p class="text-gray-700">This is the content for Tab 3.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carousel/Slider Component -->
+        <section class="bg-white p-6 rounded-2xl shadow-xl space-y-4">
+            <h2 class="text-2xl font-semibold text-gray-700">3. Carousel/Slider</h2>
+            <p class="text-gray-600">This carousel supports touch swiping, keyboard arrow navigation, and a focus trap on its controls.</p>
+            <div id="carousel" class="relative overflow-hidden rounded-xl shadow-inner bg-gray-100">
+                <div class="carousel-track" role="group" aria-label="Slideshow">
+                    <div class="carousel-slide flex items-center justify-center p-8 bg-blue-100" role="group" aria-roledescription="slide" aria-label="1 of 3">
+                        <h3 class="text-4xl font-bold text-blue-800">Slide 1</h3>
+                    </div>
+                    <div class="carousel-slide flex items-center justify-center p-8 bg-green-100" role="group" aria-roledescription="slide" aria-label="2 of 3">
+                        <h3 class="text-4xl font-bold text-green-800">Slide 2</h3>
+                    </div>
+                    <div class="carousel-slide flex items-center justify-center p-8 bg-yellow-100" role="group" aria-roledescription="slide" aria-label="3 of 3">
+                        <h3 class="text-4xl font-bold text-yellow-800">Slide 3</h3>
+                    </div>
+                </div>
+                <button aria-label="Previous slide" class="absolute top-1/2 left-4 -translate-y-1/2 p-2 bg-white/70 rounded-full shadow-lg hover:bg-white transition-colors" onclick="myCarousel.prev()">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button aria-label="Next slide" class="absolute top-1/2 right-4 -translate-y-1/2 p-2 bg-white/70 rounded-full shadow-lg hover:bg-white transition-colors" onclick="myCarousel.next()">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Test Runner -->
+        <section class="test-report p-6 space-y-4">
+            <h2 class="text-2xl font-semibold text-gray-200">Component Tests</h2>
+            <div id="testResults" class="space-y-2 text-sm"></div>
+        </section>
+    </main>
+
+    <!-- The actual modal dialog, visually hidden by default -->
+    <div id="myModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" class="modal-overlay hidden fixed inset-0 z-50 flex items-center justify-center">
+        <div class="modal-content bg-white p-8 rounded-2xl shadow-2xl max-w-lg w-full relative">
+            <h3 id="modalTitle" class="text-2xl font-bold text-gray-900 mb-4">Example Modal Title</h3>
+            <p class="text-gray-700 mb-6">
+                This is a sample modal dialog. It demonstrates how to create a reusable component that is accessible to all users.
+                You can close this modal by clicking outside, pressing the ESC key, or using the close button.
+            </p>
+            <div class="flex justify-end">
+                <button aria-label="Close dialog" class="close-modal-btn px-6 py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition-colors">
+                    Close
+                </button>
+            </div>
+            <button class="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-800 transition-colors close-modal-btn">
+                <span class="sr-only">Close</span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- Component Classes ---
+
+        // 1. Modal Component
+        class Modal {
+            constructor(selector, options = {}) {
+                this.modal = document.querySelector(selector);
+                if (!this.modal) {
+                    console.error(`Modal element not found for selector: ${selector}`);
+                    return;
+                }
+                this.closeButtons = this.modal.querySelectorAll('.close-modal-btn');
+                this.focusableElements = this.modal.querySelectorAll('a[href], button, textarea, input, select');
+                this.firstFocusableEl = this.focusableElements[0];
+                this.lastFocusableEl = this.focusableElements[this.focusableElements.length - 1];
+                this.triggerElement = null; // Store the element that triggered the modal
+
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+            }
+
+            bindEvents() {
+                this.closeButtons.forEach(btn => btn.addEventListener('click', () => this.hide()));
+                this.modal.addEventListener('click', (e) => {
+                    if (e.target === this.modal) {
+                        this.hide();
+                    }
+                });
+                document.addEventListener('keydown', this.handleKeyDown.bind(this));
+            }
+
+            handleKeyDown(e) {
+                if (this.modal.classList.contains('hidden')) return;
+                
+                if (e.key === 'Escape') {
+                    this.hide();
+                }
+
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === this.firstFocusableEl) {
+                            this.lastFocusableEl.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === this.lastFocusableEl) {
+                            this.firstFocusableEl.focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+            }
+
+            show() {
+                this.triggerElement = document.activeElement; // Save the element that had focus
+                this.modal.classList.remove('hidden');
+                this.modal.setAttribute('aria-hidden', 'false');
+                this.firstFocusableEl?.focus();
+            }
+
+            hide() {
+                this.modal.classList.add('hidden');
+                this.modal.setAttribute('aria-hidden', 'true');
+                if (this.triggerElement) {
+                    this.triggerElement.focus();
+                }
+            }
+        }
+
+        // 2. Tabbed Content Component
+        class Tabs {
+            constructor(selector, options = {}) {
+                this.container = document.querySelector(selector);
+                if (!this.container) {
+                    console.error(`Tabs container not found for selector: ${selector}`);
+                    return;
+                }
+                this.tablist = this.container.querySelector('[role="tablist"]');
+                this.tabs = Array.from(this.container.querySelectorAll('[role="tab"]'));
+                this.panels = Array.from(this.container.querySelectorAll('[role="tabpanel"]'));
+
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                // The original code called a non-existent `updateStyles` method.
+                // The styling is already handled correctly in `selectTab`.
+            }
+
+            bindEvents() {
+                this.tablist.addEventListener('click', (e) => {
+                    const tab = e.target.closest('[role="tab"]');
+                    if (tab) {
+                        this.selectTab(tab);
+                    }
+                });
+
+                this.tablist.addEventListener('keydown', (e) => {
+                    const currentTab = document.activeElement;
+                    let nextTab;
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        const currentIndex = this.tabs.indexOf(currentTab);
+                        nextTab = this.tabs[(currentIndex + 1) % this.tabs.length];
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const currentIndex = this.tabs.indexOf(currentTab);
+                        nextTab = this.tabs[(currentIndex - 1 + this.tabs.length) % this.tabs.length];
+                    }
+
+                    if (nextTab) {
+                        this.selectTab(nextTab);
+                        nextTab.focus();
+                    }
+                });
+            }
+
+            selectTab(selectedTab) {
+                this.tabs.forEach(tab => {
+                    const isSelected = tab === selectedTab;
+                    tab.setAttribute('aria-selected', isSelected);
+                    tab.setAttribute('tabindex', isSelected ? '0' : '-1');
+                    tab.classList.toggle('bg-white', isSelected);
+                    tab.classList.toggle('text-indigo-600', isSelected);
+                    tab.classList.toggle('shadow-sm', isSelected);
+                    tab.classList.toggle('text-gray-600', !isSelected);
+                    tab.classList.toggle('hover:text-indigo-600', !isSelected);
+                });
+
+                this.panels.forEach(panel => {
+                    const panelId = panel.getAttribute('id');
+                    const isSelected = selectedTab.getAttribute('aria-controls') === panelId;
+                    panel.hidden = !isSelected;
+                });
+            }
+        }
+
+        // 3. Carousel Component
+        class Carousel {
+            constructor(selector, options = {}) {
+                this.carousel = document.querySelector(selector);
+                if (!this.carousel) {
+                    console.error(`Carousel element not found for selector: ${selector}`);
+                    return;
+                }
+                this.track = this.carousel.querySelector('.carousel-track');
+                this.slides = Array.from(this.carousel.querySelectorAll('.carousel-slide'));
+                this.currentIndex = 0;
+                this.isDragging = false;
+                this.startX = 0;
+                this.currentTranslate = 0;
+
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.updateUI();
+            }
+
+            bindEvents() {
+                this.carousel.addEventListener('keydown', this.handleKeyDown.bind(this));
+                this.carousel.addEventListener('touchstart', this.handleTouchStart.bind(this));
+                this.carousel.addEventListener('touchend', this.handleTouchEnd.bind(this));
+                this.carousel.addEventListener('touchmove', this.handleTouchMove.bind(this));
+            }
+            
+            handleKeyDown(e) {
+                if (e.key === 'ArrowLeft') {
+                    this.prev();
+                } else if (e.key === 'ArrowRight') {
+                    this.next();
+                }
+            }
+            
+            handleTouchStart(e) {
+                this.isDragging = true;
+                this.startX = e.touches[0].clientX;
+                this.currentTranslate = this.currentIndex * -100;
+                this.track.style.transition = 'none';
+            }
+
+            handleTouchEnd(e) {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+                const endX = e.changedTouches[0].clientX;
+                const distance = endX - this.startX;
+
+                if (distance > 50) {
+                    this.prev();
+                } else if (distance < -50) {
+                    this.next();
+                } else {
+                    this.goToSlide(this.currentIndex);
+                }
+                this.track.style.transition = 'transform 0.5s ease-in-out';
+            }
+
+            handleTouchMove(e) {
+                if (!this.isDragging) return;
+                const currentX = e.touches[0].clientX;
+                const distance = currentX - this.startX;
+                // Calculate the translation in percentage for smoother movement
+                const translatePercentage = (this.currentTranslate / this.carousel.offsetWidth) * 100 + (distance / this.carousel.offsetWidth) * 100;
+                this.track.style.transform = `translateX(${translatePercentage}%)`;
+            }
+
+            goToSlide(index) {
+                if (index < 0 || index >= this.slides.length) return;
+                this.currentIndex = index;
+                const offset = this.currentIndex * -100;
+                this.track.style.transform = `translateX(${offset}%)`;
+                this.updateUI();
+            }
+
+            prev() {
+                this.goToSlide(this.currentIndex === 0 ? this.slides.length - 1 : this.currentIndex - 1);
+            }
+
+            next() {
+                this.goToSlide(this.currentIndex === this.slides.length - 1 ? 0 : this.currentIndex + 1);
+            }
+
+            updateUI() {
+                this.slides.forEach((slide, index) => {
+                    const isCurrent = index === this.currentIndex;
+                    slide.setAttribute('aria-hidden', !isCurrent);
+                });
+            }
+        }
+
+        // --- Simple Test Runner ---
+        class TestRunner {
+            constructor(containerId) {
+                this.container = document.getElementById(containerId);
+                this.tests = [];
+            }
+
+            it(description, testFn) {
+                this.tests.push({ description, testFn });
+            }
+
+            run() {
+                this.container.innerHTML = '';
+                this.tests.forEach(({ description, testFn }) => {
+                    const resultEl = document.createElement('div');
+                    try {
+                        testFn();
+                        resultEl.className = 'test-status-pass';
+                        resultEl.textContent = `✓ PASS: ${description}`;
+                    } catch (e) {
+                        resultEl.className = 'test-status-fail';
+                        resultEl.textContent = `✗ FAIL: ${description} - ${e.message}`;
+                    }
+                    this.container.appendChild(resultEl);
+                });
+            }
+
+            assert(condition, message) {
+                if (!condition) {
+                    throw new Error(message || 'Assertion failed');
+                }
+            }
+        }
+
+        // --- Initialization and Execution ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const openModalBtn = document.getElementById('openModalBtn');
+            const myModal = new Modal('#myModal');
+            openModalBtn.addEventListener('click', () => myModal.show());
+
+            const myTabs = new Tabs('#tabsContainer');
+            const myCarousel = new Carousel('#carousel');
+            window.myCarousel = myCarousel; // Expose to global scope for button clicks
+
+            // Run the tests
+            const runner = new TestRunner('testResults');
+
+            runner.it('Modal shows when opened', () => {
+                myModal.show();
+                runner.assert(!myModal.modal.classList.contains('hidden'), 'Modal should not be hidden');
+                myModal.hide();
+            });
+
+            runner.it('Modal hides when closed', () => {
+                myModal.show();
+                myModal.hide();
+                runner.assert(myModal.modal.classList.contains('hidden'), 'Modal should be hidden');
+            });
+
+            runner.it('Tabs switch correctly and hide previous panel', () => {
+                const tab2 = myTabs.tabs[1];
+                myTabs.selectTab(tab2);
+                runner.assert(tab2.getAttribute('aria-selected') === 'true', 'Tab 2 should be selected');
+                runner.assert(myTabs.panels[0].hidden, 'Panel 1 should be hidden after switching tabs');
+            });
+
+            runner.it('Carousel moves to the next slide', () => {
+                const initialIndex = myCarousel.currentIndex;
+                myCarousel.next();
+                const nextIndex = (initialIndex + 1) % myCarousel.slides.length;
+                runner.assert(myCarousel.currentIndex === nextIndex, 'Carousel should advance to the next index');
+                myCarousel.goToSlide(0); // Reset for next tests
+            });
+            
+            runner.it('Carousel moves to the previous slide', () => {
+                myCarousel.goToSlide(1); // Start at a known position
+                const initialIndex = myCarousel.currentIndex;
+                myCarousel.prev();
+                const prevIndex = (initialIndex - 1 + myCarousel.slides.length) % myCarousel.slides.length;
+                runner.assert(myCarousel.currentIndex === prevIndex, 'Carousel should go to the previous index');
+                myCarousel.goToSlide(0); // Reset for next tests
+            });
+
+            runner.run();
+        });
+    </script>
+</body>
+</html>
